@@ -88,3 +88,27 @@ initialize: bok
     wierzcholki at: 2 put: ((bok / 2) * -1) @ (bok*(3 sqrt)/2).
     wierzcholki at: 3 put: (bok / 2) @ (bok*(3 sqrt)/2).
 ! !
+
+!Wielokat methodsFor: 'actions'!
+
+wySrodkuj
+    "Przenosi wielokat tak, ze jego srodek geometryczny znajdzie sie w punkcie (0, 0)"
+    | sumaX sumaY srodekX srodekY przesuniecie |
+    
+    "Oblicz srodek geometryczny figury"
+    sumaX := 0.
+    sumaY := 0.
+    
+    wierzcholki do: [:punkt | 
+        sumaX := sumaX + punkt x.
+        sumaY := sumaY + punkt y.
+    ].
+    
+    srodekX := sumaX / wierzcholki size.
+    srodekY := sumaY / wierzcholki size.
+    
+    przesuniecie := srodekX @ srodekY negated.
+    
+    "Przesun kazdy wierzcholek"
+    wierzcholki := wierzcholki collect: [:punkt | punkt + przesuniecie].
+!
