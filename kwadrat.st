@@ -45,7 +45,6 @@ Wielokat subclass: #Kwadrat
 	^(Kwadrat new) initialize: p sqrt! !
 
 !Kwadrat methodsFor: 'actions'!
-
 pole
 	"licz pole kwadratu"
 
@@ -90,8 +89,7 @@ initialize: bok
 ! !
 
 !Wielokat methodsFor: 'actions'!
-
-wySrodkuj
+wysrodkuj
     "Przenosi wielokat tak, ze jego srodek geometryczny znajdzie sie w punkcie (0, 0)"
     | sumaX sumaY srodekX srodekY przesuniecie |
     
@@ -111,4 +109,11 @@ wySrodkuj
     
     "Przesun kazdy wierzcholek"
     wierzcholki := wierzcholki collect: [:punkt | punkt + przesuniecie].
+!
+drukuj
+	Transcript show: 'Wierzchołki: '; cr.
+	wierzcholki do: [:punkt |
+        Transcript show: punkt printString; cr.
+    ].
+	Transcript show: 'Pole: ', self pole printString; cr.
 !
