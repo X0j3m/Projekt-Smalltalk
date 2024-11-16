@@ -11,6 +11,7 @@ initialize: liczbaWierzcholkow name: nowaNazwa
     nazwa := nowaNazwa.
     wierzcholki := Array new: liczbaWierzcholkow.
     wierzcholki at: 1 put: 0@0.
+	wpisanyOkrag := nil.
 ! !
 
 !Wielokat methodsFor: 'accessing'!
@@ -22,10 +23,17 @@ nazwa
 nazwa: nowa_nazwa
     "ustawia nowa nazwe wielokata"
     
-    nazwa := nowa_nazwa.
+    nazwa := nowa_nazwa.!
+
+wpisanyOkrag
+	^wpisanyOkrag.
 ! !
 
 !Wielokat methodsFor: 'actions'!
+wpiszOkrag
+	^nil
+!
+
 wysrodkuj
     "Przenosi wielokat tak, ze jego srodek geometryczny znajdzie sie w punkcie (0, 0)"
     | sumaX sumaY srodekX srodekY przesuniecie |
@@ -46,6 +54,7 @@ wysrodkuj
     
     "Przesun kazdy wierzcholek"
     wierzcholki := wierzcholki collect: [:punkt | punkt + przesuniecie].
+	wpisanyOkrag := self wpiszOkrag.
 !
 
 drukuj
@@ -54,6 +63,8 @@ drukuj
         Transcript show: punkt printString; cr.
     ].
     Transcript show: 'Pole: ', self pole printString; cr.
+	Transcript show: 'Wpisany okrag: '.
+	wpisanyOkrag drukuj.
 ! !
 
 Wielokat subclass: #Kwadrat
@@ -73,6 +84,13 @@ Wielokat subclass: #Kwadrat
 ! !
 
 !Kwadrat methodsFor: 'actions'!
+wpiszOkrag
+    | bok srodek promien |
+    bok := (wierzcholki at: 2) x.
+    srodek := (bok / 2) @ (bok / 2). "Srodek geometryczny kwadratu"
+    promien := bok / 2. "Polowa boku to promien okregu wpisanego"
+    ^(Okrag new) initialize: promien center: srodek.
+!
 pole
     "licz pole kwadratu"
     
@@ -87,6 +105,7 @@ initialize: bok
     wierzcholki at: 2 put: bok@0.
     wierzcholki at: 3 put: bok@bok.
     wierzcholki at: 4 put: 0@bok.
+	wpisanyOkrag := self wpiszOkrag.
 ! !
 
 Wielokat subclass: #TrojkatRownoboczny
@@ -106,6 +125,14 @@ Wielokat subclass: #TrojkatRownoboczny
 ! !
 
 !TrojkatRownoboczny methodsFor: 'actions'!
+wpiszOkrag
+    | bok srodek promien |
+    bok := (wierzcholki at: 3) x - (wierzcholki at: 1) x.
+    srodek := 0 @ (bok * (3 sqrt) / 6). "Środek od podstawy"
+    promien := bok * (3 sqrt) / 6. "Promień okręgu wpisanego"
+    ^(Okrag new) initialize: promien center: srodek.
+!
+
 pole
     | bok |
     bok := (wierzcholki at: 2) x.
@@ -119,6 +146,7 @@ initialize: bok
     super initialize: 3 name: 'Trojkat Rownoboczny'.
     wierzcholki at: 2 put: ((bok / 2) * -1) @ (bok * (3 sqrt) / 2).
     wierzcholki at: 3 put: (bok / 2) @ (bok * (3 sqrt) / 2).
+	wpisanyOkrag := self wpiszOkrag.
 ! !
 
 Object subclass: #Okrag
