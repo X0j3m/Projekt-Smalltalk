@@ -171,9 +171,8 @@ drukuj
     Transcript show: 'Okrąg:'; cr.
     Transcript show: 'Środek: ', srodek printString; cr.
     Transcript show: 'Promień: ', promien printString; cr.
-! !
+!
 
-!Okrag methodsFor: 'actions'!
 wysrodkuj
 	srodek := 0@0
 !
