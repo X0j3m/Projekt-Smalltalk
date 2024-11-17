@@ -50,7 +50,7 @@ wysrodkuj
     srodekX := sumaX / wierzcholki size.
     srodekY := sumaY / wierzcholki size.
     
-    przesuniecie := srodekX @ srodekY negated.
+    przesuniecie := srodekX negated @ srodekY negated.
     
     "Przesun kazdy wierzcholek"
     wierzcholki := wierzcholki collect: [:punkt | punkt + przesuniecie].
@@ -86,8 +86,8 @@ Wielokat subclass: #Kwadrat
 !Kwadrat methodsFor: 'actions'!
 wpiszOkrag
     | bok srodek promien |
-    bok := (wierzcholki at: 2) x.
-    srodek := (bok / 2) @ (bok / 2). "Srodek geometryczny kwadratu"
+    bok := (wierzcholki at: 2) x - (wierzcholki at: 1) x.
+    srodek := ((wierzcholki at: 1) x + (bok / 2)) @ ((wierzcholki at: 1) y + (bok / 2)). "Srodek geometryczny kwadratu"
     promien := bok / 2. "Polowa boku to promien okregu wpisanego"
     ^(Okrag new) initialize: promien center: srodek.
 !
@@ -127,16 +127,17 @@ Wielokat subclass: #TrojkatRownoboczny
 !TrojkatRownoboczny methodsFor: 'actions'!
 wpiszOkrag
     | bok srodek promien |
-    bok := (wierzcholki at: 3) x - (wierzcholki at: 1) x.
-    srodek := 0 @ (bok * (3 sqrt) / 6). "Środek od podstawy"
+    bok := (wierzcholki at: 3) x - (wierzcholki at: 2) x.
+    srodek := ((wierzcholki at: 2) x + (bok/2)) @ ((wierzcholki at: 1) y - (bok * (3 sqrt) / 3)) . "Środek od podstawy"
     promien := bok * (3 sqrt) / 6. "Promień okręgu wpisanego"
     ^(Okrag new) initialize: promien center: srodek.
 !
 
 pole
-    | bok |
-    bok := (wierzcholki at: 2) x.
-    ^(bok squared * (3 sqrt)) / 4.
+    | x1 x2 |
+	x1 := (wierzcholki at: 3) x.
+	x2 := (wierzcholki at: 2) x.
+    ^((x1-x2) squared * (3 sqrt)) / 4.
 ! !
 
 !TrojkatRownoboczny methodsFor: 'initialize-release'!
@@ -144,8 +145,8 @@ initialize: bok
     "Tworzy trójkąt równoboczny o podanym boku"
     
     super initialize: 3 name: 'Trojkat Rownoboczny'.
-    wierzcholki at: 2 put: ((bok / 2) * -1) @ (bok * (3 sqrt) / 2).
-    wierzcholki at: 3 put: (bok / 2) @ (bok * (3 sqrt) / 2).
+    wierzcholki at: 2 put: ((bok / 2) * -1) @ (bok * (3 sqrt) / (-2)).
+    wierzcholki at: 3 put: (bok / 2) @ (bok * (3 sqrt) / (-2)).
 	wpisanyOkrag := self wpiszOkrag.
 ! !
 
